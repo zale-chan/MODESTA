@@ -6,24 +6,29 @@
 
 /**
  *
- * @author Elise
+ * Code by: crazyjugglerdrummer
+ * from: http://www.dreamincode.net/forums/topic/110380-deck-of-cards-using-various-methods/
+ * 
  */
 public class Card {
-    private static String[] name = new String[] {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
-    private static String[] suit = new String[] {"Hearts","Clubs","Spades","Diamonds"};
+    private int name, suit;
+    private static String[] names = new String[] {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
+    private static String[] suits = new String[] {"Hearts","Clubs","Spades","Diamonds"};
 
-    public Card(String[] name, String[] suit) {
+    public Card(int name, int suit) {
         this.name = name;
         this.suit = suit;
     }
 
-    public static String[] getName() {
+    public int getName() {
         return name;
     }
 
-    public static String[] getSuit() {
+    public int getSuit() {
         return suit;
     }
     
-    
+    public @Override String toString() {
+        return names[name] + " of " + suits[suit];
+    }
 }
