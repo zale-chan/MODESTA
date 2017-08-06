@@ -6,7 +6,11 @@
 package Main;
 
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.Rserve.RConnection;
+import org.rosuda.REngine.Rserve.RserveException;
 
 /**
  *
@@ -16,9 +20,7 @@ import org.rosuda.REngine.Rserve.RConnection;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int Cchoice, Tchoice;
-        String rbinom;
-        int[] res;
+        int Cchoice, Tchoice, Dchoice;
         
         System.out.println("Card Drawing Simulation\n");
         
@@ -48,26 +50,57 @@ public class Main {
                 }
             } while (Tchoice < 10 || Tchoice > 100000);
             
-            for(int i = 1; i <= Tchoice; i++){
-                rbinom = "rbinom("+ Cchoice + ",12,1/52)";
-                c.eval("result="+rbinom);
-                res = c.eval("result").asIntegers();
-                
-                System.out.print("Trial " + i + ":");
-                
-                for (int j = 0; j < res.length; j++) {
-                    System.out.print(" " + (res[j] + 1));
+            do {
+                System.out.print("Select desired total in a trial (" + Cchoice + " to " + (Cchoice * 13) + "): ");
+                Dchoice = sc.nextInt();
+
+                if (Dchoice < Cchoice || Tchoice > (Cchoice * 13)) {
+                    System.out.println("Please select only from " + Cchoice + " to " + (Cchoice * 13) + ".");
                 }
-                
-                System.out.println();
-            }
+            } while (Dchoice < Cchoice || Tchoice > (Cchoice * 13));
             
+            binomial(c, Cchoice, Tchoice, Dchoice);            
             c.close();
 
-        } catch (Exception e) {
+        } catch (RserveException e) {
             System.out.println("ERROR: In Connection to R ");
             System.out.println("The Exception is " + e.getMessage());
-            e.printStackTrace();
         }       
+    }
+    
+    static void binomial(RConnection r, int C, int T, int D){
+        String rbinom = "rbinom("+ C + ",12,1/52)";
+        int[] res = {};
+        int total, match = 0;
+        
+        for(int i = 1; i <= T; i++){
+            total = 0;
+            
+            try {
+                r.eval("result="+rbinom);
+                try {
+                    res = r.eval("result").asIntegers();
+                } catch (REXPMismatchException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (RserveException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
+            System.out.print("Trial " + i + ": ");
+                
+            for (int j = 0; j < res.length; j++) {
+                System.out.print((res[j] + 1) + " ");
+                total += (res[j] + 1);
+            }
+                
+            System.out.println("Total: " + total);
+            
+            if(total == D){
+                match++;
+            }
+        }
+        
+        System.out.println("Times desired total occured: " + match);
     }
 }
