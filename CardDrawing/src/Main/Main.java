@@ -6,7 +6,6 @@
 package Main;
 
 import Card.Card;
-import Card.Deck;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -25,7 +24,6 @@ public class Main {
         int Cchoice, Tchoice, Dchoice, suit, name, index, countR = 0, countW = 0;
         ArrayList<Card> handR = new ArrayList<Card>();
         ArrayList<Card> handW = new ArrayList<Card>();
-        Deck deck = new Deck();
         ArrayList<Card> listR = new ArrayList<Card>();
         ArrayList<Card> listW = new ArrayList<Card>();
         Random gen = new Random(52);
@@ -68,9 +66,7 @@ public class Main {
             
             System.out.print("Input number of desired outcome: ");
             Dchoice = sc.nextInt();
-                      
-            deck.Deck();
-            
+                                 
             System.out.println("With repetition");
             for (int j = 0; j < Tchoice; j++) {
                 
