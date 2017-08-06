@@ -8,6 +8,9 @@ package Main;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
@@ -69,6 +72,17 @@ public class Main {
     }
     
     static void binomial(RConnection r, int C, int T, int D){
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        
+        try {
+            fw = new FileWriter("C:\\Users\\Faith Clarisse\\Documents\\log.txt");
+            bw = new BufferedWriter(fw);
+            bw.write("Binomial\n");
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         String rbinom = "rbinom("+ C + ",12,1/52)";
         int[] res = {};
         int total, match = 0;
@@ -87,20 +101,38 @@ public class Main {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
                 
-            System.out.print("Trial " + i + ": ");
+            try {
+                bw.append("Trial " + i + ": ");
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
                 
             for (int j = 0; j < res.length; j++) {
-                System.out.print((res[j] + 1) + " ");
+                try {
+                    bw.append((res[j] + 1) + " ");
+                } catch (IOException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 total += (res[j] + 1);
             }
                 
-            System.out.println("Total: " + total);
+            try {
+                bw.append("Total: " + total + "\n");
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             if(total == D){
                 match++;
             }
         }
         
-        System.out.println("Times desired total occured: " + match);
+        try {
+            bw.append("Times desired total occured: " + match + "\n");
+            bw.close();
+            fw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
