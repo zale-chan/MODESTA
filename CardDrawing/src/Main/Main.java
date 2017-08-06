@@ -20,6 +20,8 @@ import org.rosuda.REngine.Rserve.RConnection;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        String[] names = new String[] {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
+        String[] suits = new String[] {"H","C","S","D"};
         int Cchoice, Tchoice, Dchoice, suit, name, index, countR = 0, countW = 0;
         ArrayList<Card> handR = new ArrayList<Card>();
         ArrayList<Card> handW = new ArrayList<Card>();
@@ -41,8 +43,8 @@ public class Main {
             //populate deck
             for (int i = 0; i <= 3; i++) {
                 for (int j = 0; j <= 12; j++) {
-                    listW.add(new Card(i, j));
-                    listR.add(new Card(i, j));
+                    listW.add(new Card(j, i));
+                    listR.add(new Card(j, i));
                 }
             }
             
@@ -82,30 +84,26 @@ public class Main {
                     countR += suit;
 
                     listR.add(new Card(name, suit)); // add back
-                    suit = handR.get(i).getSuit();
-                    name = handR.get(i).getName();
-                    System.out.println(handR.get(i).generateName(name) + " of " + handR.get(i).generateSuit(suit));
+                    
+                    System.out.println(names[name] + " of " + suits[suit]);
                 }
             }
-            System.out.println("Total: " + countR);
+            System.out.println("Total with Rep: " + countR);
             
             System.out.println("Without repetition");
             for (int j = 0; j < Tchoice; j++) {
                 //without rep
                 
                 for (int i = 0; i < Cchoice; i++) {
-                    index = gen.nextInt(52);
+                    index = gen.nextInt(listW.size());
                     suit = listW.get(index).getSuit();
                     name = listW.get(index).getName();
                     countW += suit;
                     handW.add(listW.remove(index));
-                    
-                    suit = handW.get(i).getSuit();
-                    name = handW.get(i).getName();
-                    System.out.println(handW.get(i).generateName(name) + " of " + handW.get(i).generateSuit(suit));
+                    System.out.println(names[name] + " of " + suits[suit]);
                 }
             }
-            System.out.println("Total: " + countW);
+            System.out.println("Total Non-Rep: " + countW);
             
 //            rbinom = "rbinom("+ Cchoice + "," + 52 + ",1/52)";
 //            c.eval("result="+rbinom);

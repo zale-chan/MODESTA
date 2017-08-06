@@ -14,8 +14,6 @@ package Card;
  */
 public class Card {
     private int name, suit;
-    private static String[] names = new String[] {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
-    private static String[] suits = new String[] {"Hearts","Clubs","Spades","Diamonds"};
 
     public Card(int name, int suit) {
         this.name = name;
@@ -29,12 +27,5 @@ public class Card {
     public int getSuit() {
         return suit;
     }
-    
-    public String generateName(int name) {
-        return names[name];
-    }
-    
-    public String generateSuit(int suit) {
-        return suits[suit];
-    }
+
 }
