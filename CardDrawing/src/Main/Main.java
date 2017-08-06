@@ -18,6 +18,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int Cchoice, Tchoice;
         String rbinom;
+        int[] res;
+        
         System.out.println("Card Drawing Simulation\n");
         
         try{
@@ -46,12 +48,20 @@ public class Main {
                 }
             } while (Tchoice < 10 || Tchoice > 100000);
             
-            rbinom = "rbinom("+ Cchoice + "," + Tchoice + ",1/52)";
-            c.eval("result="+rbinom);
-            int[] res = c.eval("result").asIntegers();
-            for (int i = 0; i < res.length; i++) {
-                System.out.println(res[i]);
+            for(int i = 1; i <= Tchoice; i++){
+                rbinom = "rbinom("+ Cchoice + ",12,1/52)";
+                c.eval("result="+rbinom);
+                res = c.eval("result").asIntegers();
+                
+                System.out.print("Trial " + i + ":");
+                
+                for (int j = 0; j < res.length; j++) {
+                    System.out.print(" " + (res[j] + 1));
+                }
+                
+                System.out.println();
             }
+            
             c.close();
 
         } catch (Exception e) {
