@@ -14,11 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.Rserve.RConnection;
-import org.rosuda.REngine.Rserve.RserveException;
 
 /**
  * @author Zale and Faith
@@ -33,6 +29,8 @@ public class Main {
         int Cchoice, Tchoice, Dchoice, suit, name, index, countR = 0, countW = 0, appearR = 0, appearW = 0;
         float percent = 0;
         int[] tR, tW;
+        String idealprob;
+        float res;
         ArrayList<Card> handR = new ArrayList<Card>();
         ArrayList<Card> handW = new ArrayList<Card>();
         ArrayList<Card> listR = new ArrayList<Card>();
@@ -127,13 +125,21 @@ public class Main {
             percent *= 100;
             System.out.println("Percentage the desired value appeared: " + percent + "%");
             
+            System.out.println("\nIDEAL PROBABILIY");
+            idealprob = "(factorial(13)/(factorial(" + Cchoice + ")*factorial(13-"+ Cchoice +")))";
+            c.eval("result="+idealprob);
+            res = 1/(float)c.eval("result").asInteger();
+            System.out.println("Ideal probability of " + Dchoice + ": " + res);
+           
+            
             percent = 0;
             System.out.print("\nInput number of desired total for without repetition: ");
             Dchoice = sc.nextInt();
             writer.write("Desired total (non-rep): " + Dchoice);     
             writer.write(System.getProperty( "line.separator" ));
             
-            System.out.println("Without repetition");
+            
+            System.out.println("ACTUAL PROBABILITY\n" + "Without repetition");
             writer.write(System.getProperty( "line.separator" ));
             writer.write("Without repetition");
             writer.write(System.getProperty( "line.separator" ));
@@ -170,9 +176,12 @@ public class Main {
             percent *= 100;
             System.out.println("Percentage the desired value appeared: " + percent + "%");
             
-            System.out.println("\nIDEAL PROBABILIY\n"
-                    + "RBINOM");
-            binomial(c, Cchoice, Tchoice, Dchoice);
+            System.out.println("\nIDEAL PROBABILIY");
+            idealprob = "(factorial(13)/(factorial(" + Cchoice + ")*factorial(13-"+ Cchoice +")))";
+            c.eval("result="+idealprob);
+            res = 1/(float)c.eval("result").asInteger();
+            System.out.println("Ideal probability of " + Dchoice + ": " + res);
+           
             c.close();
             writer.close();
         } catch (IOException e) {
@@ -182,41 +191,5 @@ public class Main {
             System.out.println("The Exception is " + e.getMessage());
             e.printStackTrace();
         }       
-    }
-    
-    static void binomial(RConnection r, int C, int T, int D){
-        String rbinom = "rbinom("+ C + ",12,1/52)";
-        int[] res = {};
-        int total, match = 0;
-        
-        for(int i = 1; i <= T; i++){
-            total = 0;
-            
-            try {
-                r.eval("result="+rbinom);
-                try {
-                    res = r.eval("result").asIntegers();
-                } catch (REXPMismatchException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } catch (RserveException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                
-            System.out.print("Trial " + i + ": ");
-                
-            for (int j = 0; j < res.length; j++) {
-                System.out.print((res[j] + 1) + " ");
-                total += (res[j] + 1);
-            }
-                
-            System.out.println("Total: " + total);
-            
-            if(total == D){
-                match++;
-            }
-        }
-
-        System.out.println("Times desired total occured: " + match);
     }
 }
