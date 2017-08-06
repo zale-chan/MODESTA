@@ -16,13 +16,14 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int Cchoice, Tchoice;
-        String rbinom = "rbinom(5,10,1/6)";
+        String rbinom;
         System.out.println("Card Drawing Simulation\n");
         
         try{
 
             System.out.println("INFO: Trying to connect to R ");
             RConnection c = new RConnection();
+            c.eval("library(Rserve)");
             System.out.println("INFO: Connected to R ");
             System.out.println("INFO: The Server version is " + c.getServerVersion() + "\n");
 
@@ -36,14 +37,15 @@ public class Main {
             } while (Cchoice < 1 || Cchoice > 5);
             
             do {
-                System.out.print("Select number of trials to be done (1 to 5): ");
+                System.out.print("Select number of trials to be done (10 to 100000): ");
                 Tchoice = sc.nextInt();
 
-                if (choice < 1 || choice > 5) {
-                    System.out.println("Please select only from 1 to 5.");
+                if (Tchoice < 10 || Tchoice > 100000) {
+                    System.out.println("Please select only from 10 to 100000.");
                 }
-            } while (choice < 1 || choice > 5);
+            } while (Tchoice < 10 || Tchoice > 100000);
             
+            rbinom = "rbinom("+ Tchoice + "," + Cchoice + ",1/52)";
             c.eval("result="+rbinom);
             int[] res = c.eval("result").asIntegers();
             for (int i = 0; i < res.length; i++)
