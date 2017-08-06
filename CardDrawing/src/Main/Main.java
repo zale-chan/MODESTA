@@ -12,7 +12,7 @@ import java.util.Scanner;
 import org.rosuda.REngine.Rserve.RConnection;
 
 /**
- *
+ * @author Zale and Faith
  * Rserve code by:
  * from https://rajeshsubbiah.wordpress.com/2010/05/13/connecting-to-r-from-java/
  */
@@ -21,7 +21,9 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         String[] names = new String[] {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
         String[] suits = new String[] {"H","C","S","D"};
-        int Cchoice, Tchoice, Dchoice, suit, name, index, countR = 0, countW = 0;
+        int Cchoice, Tchoice, Dchoice, suit, name, index, countR = 0, countW = 0, appear = 0;
+        float percent = 0;
+        int[] tR, tW;
         ArrayList<Card> handR = new ArrayList<Card>();
         ArrayList<Card> handW = new ArrayList<Card>();
         ArrayList<Card> listR = new ArrayList<Card>();
@@ -56,18 +58,19 @@ public class Main {
             } while (Cchoice < 1 || Cchoice > 5);
             
             do {
-                System.out.print("Select number of trials to be done (10 to 100000): ");
+                System.out.print("Select number of trials to be done (10 to 20): ");
                 Tchoice = sc.nextInt();
 
-                if (Tchoice < 10 || Tchoice > 100000) {
-                    System.out.println("Please select only from 10 to 100000.");
+                if (Tchoice < 10 || Tchoice > 20) {
+                    System.out.println("Please select only from 10 to 20.");
                 }
-            } while (Tchoice < 10 || Tchoice > 100000);
+            } while (Tchoice < 10 || Tchoice > 20);
             
-            System.out.print("Input number of desired outcome: ");
+            System.out.print("Input number of desired total for with repetition: ");
             Dchoice = sc.nextInt();
                                  
             System.out.println("With repetition");
+            tW = tR = new int[Tchoice];
             for (int j = 0; j < Tchoice; j++) {
                 
                 //with rep
@@ -77,15 +80,30 @@ public class Main {
                     name = listR.get(index).getName();
                     handR.add(listR.remove(index));
                     
-                    countR += suit;
+                    countR = countR + (name + 1);
 
                     listR.add(new Card(name, suit)); // add back
                     
-                    System.out.println(names[name] + " of " + suits[suit]);
+                    System.out.println(suits[suit] + names[name]);
                 }
+                tR[j] = countR;
+                System.out.println("Total with Rep: " + countR);
+                countR = 0;
             }
-            System.out.println("Total with Rep: " + countR);
             
+            for (int i = 0; i < Tchoice; i++) {
+                if (tR[i] == Dchoice)
+                    appear++;
+            }
+            System.out.println("Number of times the desired value appeared: " + appear);
+            percent = (float) appear / (float) Tchoice;
+            percent *= 100;
+            System.out.println("Percentage the desired value appeared: " + percent + "%");
+            
+            appear = 0;
+            percent = 0;
+            System.out.print("\nInput number of desired total for without repetition: ");
+            Dchoice = sc.nextInt();
             System.out.println("Without repetition");
             for (int j = 0; j < Tchoice; j++) {
                 //without rep
@@ -94,13 +112,25 @@ public class Main {
                     index = gen.nextInt(listW.size());
                     suit = listW.get(index).getSuit();
                     name = listW.get(index).getName();
-                    countW += suit;
+                    
+                    countW = countW + (name + 1);
+                    
                     handW.add(listW.remove(index));
-                    System.out.println(names[name] + " of " + suits[suit]);
+                    System.out.println(suits[suit] + names[name]);
                 }
+                tW[j] = countW;
+                System.out.println("Total Non-Rep: " + countW);
+                countW = 0;
             }
-            System.out.println("Total Non-Rep: " + countW);
             
+            for (int i = 0; i < Tchoice; i++) {
+                if (tR[i] == Dchoice)
+                    appear++;
+            }
+            System.out.println("Number of times the desired value appeared: " + appear);
+            percent = (float) appear / (float) Tchoice;
+            percent *= 100;
+            System.out.println("Percentage the desired value appeared: " + percent + "%");
 //            rbinom = "rbinom("+ Cchoice + "," + 52 + ",1/52)";
 //            c.eval("result="+rbinom);
 //            int[] res = c.eval("result").asIntegers();
