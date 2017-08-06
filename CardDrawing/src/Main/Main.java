@@ -10,7 +10,8 @@ import org.rosuda.REngine.Rserve.RConnection;
 
 /**
  *
- * @author Elise
+ * Rserve code by:
+ * from https://rajeshsubbiah.wordpress.com/2010/05/13/connecting-to-r-from-java/
  */
 public class Main {
     public static void main(String[] args) {
@@ -20,7 +21,7 @@ public class Main {
         System.out.println("Card Drawing Simulation\n");
         
         try{
-
+            // NOTE: Rserve() must be entered in RStudio after library(Rserve) is used else no connection will happen.
             System.out.println("INFO: Trying to connect to R ");
             RConnection c = new RConnection();
             c.eval("library(Rserve)");
@@ -45,12 +46,12 @@ public class Main {
                 }
             } while (Tchoice < 10 || Tchoice > 100000);
             
-            rbinom = "rbinom("+ Tchoice + "," + Cchoice + ",1/52)";
+            rbinom = "rbinom("+ Cchoice + "," + Tchoice + ",1/52)";
             c.eval("result="+rbinom);
             int[] res = c.eval("result").asIntegers();
-            for (int i = 0; i < res.length; i++)
+            for (int i = 0; i < res.length; i++) {
                 System.out.println(res[i]);
-            
+            }
             c.close();
 
         } catch (Exception e) {
