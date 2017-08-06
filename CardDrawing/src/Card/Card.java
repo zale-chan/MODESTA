@@ -8,8 +8,8 @@ package Card;
 
 /**
  *
- * Code by: crazyjugglerdrummer
- * from: http://www.dreamincode.net/forums/topic/110380-deck-of-cards-using-various-methods/
+ * Code based from: crazyjugglerdrummer
+ * http://www.dreamincode.net/forums/topic/110380-deck-of-cards-using-various-methods/
  * 
  */
 public class Card {
@@ -30,7 +30,11 @@ public class Card {
         return suit;
     }
     
-    public @Override String toString() {
-        return names[name] + " of " + suits[suit];
+    public String generateName(int name) {
+        return names[name];
+    }
+    
+    public String generateSuit(int suit) {
+        return suits[suit];
     }
 }
