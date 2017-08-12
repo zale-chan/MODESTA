@@ -6,6 +6,8 @@
 package Main;
 
 import Card.Card;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +20,7 @@ import org.rosuda.REngine.Rserve.RConnection;
  * @author Elise
  */
 public class Without extends javax.swing.JFrame {
-
+    String pieName, barname;
     /**
      * Creates new form Without
      */
@@ -26,6 +28,8 @@ public class Without extends javax.swing.JFrame {
         initComponents();
         initTri(tDone);
         initDraw(cDrawn);
+        this.setLocationRelativeTo(null);
+        this.setTitle("Card Drawing Simulation");
     }
 
     /**
@@ -49,7 +53,8 @@ public class Without extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         back1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        area = new javax.swing.JTextArea();
+        bnom1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,9 +84,16 @@ public class Without extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        area.setColumns(20);
+        area.setRows(5);
+        jScrollPane1.setViewportView(area);
+
+        bnom1.setText("Graph");
+        bnom1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bnom1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -111,10 +123,14 @@ public class Without extends javax.swing.JFrame {
                 .addGap(167, 167, 167))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(297, 297, 297)
+                .addComponent(bnom1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,7 +156,9 @@ public class Without extends javax.swing.JFrame {
                     .addComponent(bnom)
                     .addComponent(back1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bnom1)
                 .addContainerGap())
         );
 
@@ -166,19 +184,19 @@ public class Without extends javax.swing.JFrame {
         // TODO add your handling code here:
         String[] names = new String[] {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
         String[] suits = new String[] {"H","C","S","D"};
-        int Cchoice, Tchoice, Dchoice, suit, name, index, countR = 0, countW = 0, appearR = 0, appearW = 0;
+        int Cchoice, Tchoice, Dchoice, suit, name, index, countW = 0, appearW = 0;
         float percent = 0;
         int[] tR, tW;
         String idealprob;
         float res;
-        ArrayList<Card> handR = new ArrayList<Card>();
         ArrayList<Card> handW = new ArrayList<Card>();
         ArrayList<Card> listR = new ArrayList<Card>();
         ArrayList<Card> listW = new ArrayList<Card>();
         Random gen = new Random();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyy-hhmmss.SSS");
-        String fileName = "files/File-" +  simpleDateFormat.format( new Date() ) + ".txt";
-        
+        String date = simpleDateFormat.format( new Date() );
+        String fileName = "files/WithoutFile-" + date  + ".txt";
+        String picName, barName;
         if (dTotal.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Enter your desired total", "Warning", JOptionPane.WARNING_MESSAGE, null);
         } else {
@@ -186,11 +204,20 @@ public class Without extends javax.swing.JFrame {
                 
                 Tchoice = Integer.parseInt(tDone.getSelectedItem().toString());
                 Cchoice = Integer.parseInt(cDrawn.getSelectedItem().toString());
+                Dchoice = Integer.parseInt(dTotal.getText());
                 try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+                    // NOTE: Rserve() must be entered in RStudio after library(Rserve) is used else no connection will happen.
                     RConnection c = new RConnection();
+                    tW = tR = new int[Tchoice];
+                    for (int i = 0; i <= 3; i++) {
+                        for (int k = 0; k <= 12; k++) {
+                            listW.add(new Card(k, i));
+                        }
+                    }
                     for (int j = 0; j < Tchoice; j++) {
                         //without rep
-                        System.out.println("Trial " + j);
+                        area.append("Trial " + j + "\n");
                         writer.write("Trial " + j);
                         writer.write(System.getProperty( "line.separator" ));
                         for (int i = 0; i < Cchoice; i++) {
@@ -201,12 +228,12 @@ public class Without extends javax.swing.JFrame {
                             countW = countW + (name + 1);
 
                             handW.add(listW.remove(index));
-                            System.out.println(suits[suit] + names[name]);
+                            area.append(suits[suit] + names[name] + "\n");
                             writer.write(suits[suit] + names[name]);
                             writer.write(System.getProperty( "line.separator" ));
                         }
                         tW[j] = countW;
-                        System.out.println("Total Non-Rep: " + countW);
+                        area.append("Total Non-Rep: " + countW + "\n\n");
                         writer.write("Total Non-Rep: " + countW);
                         writer.write(System.getProperty( "line.separator" ));
                         countW = 0;
@@ -224,10 +251,27 @@ public class Without extends javax.swing.JFrame {
                         if (tR[i] == Dchoice)
                             appearW++;
                     }
-                    System.out.println("Number of times the desired value appeared: " + appearW);
+                    area.append("Number of times the desired value appeared: " + appearW + "\n");
                     percent = (float) appearW / (float) Tchoice;
-                    percent *= 100;
-                    System.out.println("Percentage the desired value appeared: " + percent + "%");
+                    area.append("Probability the desired value appeared: " + percent + "\n");
+                    int failure = Tchoice-appearW;
+                    
+                    picName = "C:/Users/Elise/Downloads/image/WithoutPie-" + date + ".png";
+                    pieName = picName;
+                    barName = "C:/Users/Elise/Downloads/image/WithoutBar-" + date + ".png";
+                    barname = barName;
+                    c.eval("slices = c("+ appearW + "," + failure + ")");
+                    c.eval("lbls = c(\"Successes\", \"Failures\")");
+                    c.eval("pct = round(slices/sum(slices)*100)");
+                    c.eval("lbls = paste(lbls, pct)");
+                    c.eval("lbls = paste(lbls, \"%\", sep=\"\")");
+                    c.eval("png(filename='" + picName + "')");
+                    c.eval("pie(slices, labels = lbls, main=\"Pie Chart of Success and Faillures\")");
+                    c.eval("dev.off()");
+                    c.eval("counts = c(" + percent + "," +0.6453 +")");
+                    c.eval("png(filename='" + barName + "')");
+                    c.eval("barplot(counts, main = \"Actual vs. Ideal Probabilities\", names.arg = c(\"Actual\", \"Ideal\"), col = c(\"darkblue\",\"lightblue\"), las = 1)");
+                    c.eval("dev.off()");
                     c.close();
                 } catch (Exception e) {
                     System.out.println("ERROR: In Connection to R ");
@@ -243,6 +287,14 @@ public class Without extends javax.swing.JFrame {
         this.setVisible(false);
         new GUI().setVisible(true);
     }//GEN-LAST:event_back1MouseClicked
+
+    private void bnom1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bnom1MouseClicked
+        // TODO add your handling code here:
+        if (pieName != null || barname != null)
+            new Graph(pieName, barname).setVisible(true);
+        else
+            JOptionPane.showMessageDialog(this, "No existing graphs!", "Warning", JOptionPane.WARNING_MESSAGE, null);
+    }//GEN-LAST:event_bnom1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -295,7 +347,7 @@ public class Without extends javax.swing.JFrame {
     
     public void initDraw(javax.swing.JComboBox m) {
         String [] num = new String[5];
-        int i=0, j=1;
+        int i=0, j=0;
 
         while (i < 5) {
 
@@ -307,8 +359,10 @@ public class Without extends javax.swing.JFrame {
         m.setModel(new javax.swing.DefaultComboBoxModel(num));
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea area;
     private javax.swing.JButton back1;
     private javax.swing.JButton bnom;
+    private javax.swing.JButton bnom1;
     private javax.swing.JComboBox<String> cDrawn;
     private javax.swing.JTextField dTotal;
     private javax.swing.JLabel jLabel1;
@@ -318,7 +372,6 @@ public class Without extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JComboBox<String> tDone;
     // End of variables declaration//GEN-END:variables
 }

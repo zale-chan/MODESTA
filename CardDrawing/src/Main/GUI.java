@@ -18,6 +18,8 @@ public class GUI extends javax.swing.JFrame {
      */
     public GUI() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Card Drawing Simulation");
     }
 
     /**
@@ -35,12 +37,17 @@ public class GUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         without = new javax.swing.JRadioButton();
-        without1 = new javax.swing.JRadioButton();
+        hyper = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("MCO2"); // NOI18N
 
         binomRd.setText("Binomial");
+        binomRd.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                binomRdItemStateChanged(evt);
+            }
+        });
         binomRd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 binomRdMouseClicked(evt);
@@ -53,6 +60,11 @@ public class GUI extends javax.swing.JFrame {
         });
 
         nbinomRd.setText("Negative Binomial");
+        nbinomRd.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                nbinomRdItemStateChanged(evt);
+            }
+        });
         nbinomRd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nbinomRdActionPerformed(evt);
@@ -71,16 +83,26 @@ public class GUI extends javax.swing.JFrame {
         jLabel1.setText("Select an option");
 
         without.setText("Without replacement");
+        without.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                withoutItemStateChanged(evt);
+            }
+        });
         without.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 withoutActionPerformed(evt);
             }
         });
 
-        without1.setText("Hyper");
-        without1.addActionListener(new java.awt.event.ActionListener() {
+        hyper.setText("Hyper");
+        hyper.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                hyperItemStateChanged(evt);
+            }
+        });
+        hyper.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                without1ActionPerformed(evt);
+                hyperActionPerformed(evt);
             }
         });
 
@@ -99,7 +121,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(96, 96, 96)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(without1)
+                    .addComponent(hyper)
                     .addComponent(without)
                     .addComponent(nbinomRd)
                     .addComponent(binomRd))
@@ -117,7 +139,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(without)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(without1)
+                .addComponent(hyper)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(41, 41, 41))
@@ -157,7 +179,13 @@ public class GUI extends javax.swing.JFrame {
             new Binom().setVisible(true);
         } else if (nbinomRd.isSelected()) {
             this.setVisible(false);
-            new Nbinom().setVisible(true);
+            new nBinom().setVisible(true);
+        } else if (without.isSelected()) {
+            this.setVisible(false);
+            new Without().setVisible(true);
+        } else if (hyper.isSelected()) {
+            this.setVisible(false);
+            new nBinom().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Select an option", "Warning", JOptionPane.WARNING_MESSAGE, null);
         }
@@ -167,9 +195,42 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_withoutActionPerformed
 
-    private void without1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_without1ActionPerformed
+    private void hyperActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hyperActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_without1ActionPerformed
+    }//GEN-LAST:event_hyperActionPerformed
+
+    private void binomRdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_binomRdItemStateChanged
+        // TODO add your handling code here:
+        if(binomRd.isSelected()) {
+            nbinomRd.setSelected(false);
+            without.setSelected(false);
+            hyper.setSelected(false);
+        }
+    }//GEN-LAST:event_binomRdItemStateChanged
+
+    private void nbinomRdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_nbinomRdItemStateChanged
+        if(nbinomRd.isSelected()) {
+            binomRd.setSelected(false);
+            without.setSelected(false);
+            hyper.setSelected(false);
+        }
+    }//GEN-LAST:event_nbinomRdItemStateChanged
+
+    private void withoutItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_withoutItemStateChanged
+        if(without.isSelected()) {
+            nbinomRd.setSelected(false);
+            binomRd.setSelected(false);
+            hyper.setSelected(false);
+        }
+    }//GEN-LAST:event_withoutItemStateChanged
+
+    private void hyperItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hyperItemStateChanged
+        if(hyper.isSelected()) {
+            nbinomRd.setSelected(false);
+            binomRd.setSelected(false);
+            without.setSelected(false);
+        }
+    }//GEN-LAST:event_hyperItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -208,11 +269,11 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton binomRd;
+    private javax.swing.JRadioButton hyper;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton nbinomRd;
     private javax.swing.JRadioButton without;
-    private javax.swing.JRadioButton without1;
     // End of variables declaration//GEN-END:variables
 }
