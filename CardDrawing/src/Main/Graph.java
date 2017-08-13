@@ -127,7 +127,6 @@ public class Graph extends javax.swing.JFrame {
     private void back1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_back1MouseClicked
         // TODO add your handling code here:
         this.setVisible(false);
-        new Without().setVisible(true);
     }//GEN-LAST:event_back1MouseClicked
 
     /**

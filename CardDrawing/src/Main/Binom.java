@@ -28,6 +28,7 @@ public class Binom extends javax.swing.JFrame {
         initComponents();
         initTri(tDone);
         initDraw(cDrawn);
+        initExp(expe);
         this.setLocationRelativeTo(null);
         this.setTitle("Card Drawing Simulation");
     }
@@ -55,6 +56,8 @@ public class Binom extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         area = new javax.swing.JTextArea();
         bnom1 = new javax.swing.JButton();
+        expe = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,7 +65,7 @@ public class Binom extends javax.swing.JFrame {
         jLabel1.setText("Normal Deck has 52 cards and 4 suits. Each suit has 13 cards.");
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("WITHOUT REPLACEMENT");
+        jLabel5.setText("BINOMIAL");
 
         jLabel2.setText("# of Cards to be Drawn");
 
@@ -95,32 +98,12 @@ public class Binom extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setText("# of Experiments");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(171, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(back1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bnom))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(tDone, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(dTotal))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(cDrawn, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(167, 167, 167))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,6 +114,33 @@ public class Binom extends javax.swing.JFrame {
                 .addGap(297, 297, 297)
                 .addComponent(bnom1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(171, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(expe, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(tDone, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cDrawn, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(dTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(back1)
+                        .addGap(206, 206, 206)
+                        .addComponent(bnom))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(167, 167, 167))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,7 +149,7 @@ public class Binom extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cDrawn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -149,9 +159,13 @@ public class Binom extends javax.swing.JFrame {
                     .addComponent(tDone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(expe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bnom)
                     .addComponent(back1))
@@ -194,7 +208,7 @@ public class Binom extends javax.swing.JFrame {
         Random gen = new Random();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyy-hhmmss.SSS");
         String date = simpleDateFormat.format( new Date() );
-        String fileName = "files/WithoutFile-" + date  + ".txt";
+        String fileName = "files/BinomFile-" + date  + ".txt";
         String picName, barName;
         
         if (dTotal.getText().isEmpty()) {
@@ -215,7 +229,8 @@ public class Binom extends javax.swing.JFrame {
                             listR.add(new Card(k, i));
                         }
                     }
-                    for (int j = 1; j < Tchoice+1; j++) {
+                    for (int j = 0; j < Tchoice; j++) {
+                        area.append("Trial " + j+"\n");
                         writer.write("Trial " + j);
                         writer.write(System.getProperty("line.separator"));
                         for (int i = 0; i < Cchoice; i++) {
@@ -233,7 +248,7 @@ public class Binom extends javax.swing.JFrame {
                             writer.write(System.getProperty("line.separator"));
                         }
                         tR[j] = countR;
-                        area.append("Total with Rep: " + countR);
+                        area.append("Total with Rep: " + countR + "\n");
                         writer.write("Total with Rep: " + countR);
                         writer.write(System.getProperty("line.separator"));
                         countR = 0;
@@ -254,7 +269,8 @@ public class Binom extends javax.swing.JFrame {
                     pieName = picName;
                     barName = "C:/Users/Elise/Downloads/image/BinomBar-" + date + ".png";
                     barname = barName;
-                    c.eval("ideal=sum(rbinom(n,"+Tchoice+",prob))/(n*"+Tchoice+")");
+                    int exp = Integer.parseInt(expe.getSelectedItem().toString());
+                    c.eval("ideal=sum(rbinom("+ exp + ","+Tchoice+",1/52))/("+exp+"*"+Tchoice+")");
                     idealprob = c.eval("ideal").asString();
                     c.eval("slices = c("+ appearW + "," + failure + ")");
                     c.eval("lbls = c(\"Successes\", \"Failures\")");
@@ -341,6 +357,20 @@ public class Binom extends javax.swing.JFrame {
         m.setModel(new javax.swing.DefaultComboBoxModel(num));
     }
     
+    public void initExp(javax.swing.JComboBox m) {
+        String [] num = new String[50];
+        int i=0, j=0;
+
+        while (i < 50) {
+
+            j += 10;
+            num[i] = Integer.toString((j));
+            i++;
+        }
+
+        m.setModel(new javax.swing.DefaultComboBoxModel(num));
+    }
+    
     public void initDraw(javax.swing.JComboBox m) {
         String [] num = new String[5];
         int i=0, j=0;
@@ -361,11 +391,13 @@ public class Binom extends javax.swing.JFrame {
     private javax.swing.JButton bnom1;
     private javax.swing.JComboBox<String> cDrawn;
     private javax.swing.JTextField dTotal;
+    private javax.swing.JComboBox<String> expe;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> tDone;
