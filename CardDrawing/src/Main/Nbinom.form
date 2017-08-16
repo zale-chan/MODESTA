@@ -278,7 +278,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ideal Probability"/>
+            <Property name="text" type="java.lang.String" value="Probability"/>
           </Properties>
         </Component>
       </SubComponents>

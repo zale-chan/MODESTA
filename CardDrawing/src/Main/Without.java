@@ -97,7 +97,7 @@ public class Without extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setText("Ideal Probability");
+        jLabel8.setText("Probability");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -202,7 +202,7 @@ public class Without extends javax.swing.JFrame {
         int Cchoice, Tchoice, Dchoice, suit, name, index, countW = 0, appearW = 0;
         float percent = 0;
         int[] tR, tW;
-        float idealprob = 0;
+        float prob = 0;
         
         ArrayList<Card> handW = new ArrayList<Card>();
         ArrayList<Card> listR = new ArrayList<Card>();
@@ -220,7 +220,7 @@ public class Without extends javax.swing.JFrame {
                 Tchoice = Integer.parseInt(tDone.getSelectedItem().toString());
                 Cchoice = Integer.parseInt(cDrawn.getSelectedItem().toString());
                 Dchoice = Integer.parseInt(dTotal.getText());
-                idealprob = Float.parseFloat(ideal.getText());
+                prob = Float.parseFloat(ideal.getText());
                 try {
                     BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
                     // NOTE: Rserve() must be entered in RStudio after library(Rserve) is used else no connection will happen.
@@ -271,11 +271,14 @@ public class Without extends javax.swing.JFrame {
                     percent = (float) appearW / (float) Tchoice;
                     area.append("Probability the desired value appeared: " + percent + "\n");
                     int failure = Tchoice-appearW;
-                    
+                    int exp = 200;
                     picName = "C:/Users/Elise/Downloads/image/WithoutPie-" + date + ".png";
                     pieName = picName;
                     barName = "C:/Users/Elise/Downloads/image/WithoutBar-" + date + ".png";
                     barname = barName;
+                    c.eval("ideal=sum(rbinom("+ exp + ","+Tchoice+","+prob+"))/("+exp+"*"+Tchoice+")");
+                    String res = c.eval("ideal").asString();
+                    area.append("\nIdeal probability is: " + res);
                     c.eval("slices = c("+ appearW + "," + failure + ")");
                     c.eval("lbls = c(\"Successes\", \"Failures\")");
                     c.eval("pct = round(slices/sum(slices)*100)");
@@ -284,7 +287,7 @@ public class Without extends javax.swing.JFrame {
                     c.eval("png(filename='" + picName + "')");
                     c.eval("pie(slices, labels = lbls, main=\"Pie Chart of Success and Faillures\")");
                     c.eval("dev.off()");
-                    c.eval("counts = c(" + percent + "," + idealprob +")");
+                    c.eval("counts = c(" + percent + "," + res +")");
                     c.eval("png(filename='" + barName + "')");
                     c.eval("barplot(counts, main = \"Actual vs. Ideal Probabilities\", names.arg = c(\"Actual\", \"Ideal\"), col = c(\"darkblue\",\"lightblue\"), las = 1)");
                     c.eval("dev.off()");

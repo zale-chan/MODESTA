@@ -102,7 +102,7 @@ public class Binom extends javax.swing.JFrame {
 
         jLabel6.setText("# of Experiments");
 
-        jLabel8.setText("Ideal Probability");
+        jLabel8.setText("Probability");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -216,7 +216,7 @@ public class Binom extends javax.swing.JFrame {
         int Cchoice, Tchoice, Dchoice, suit, name, index, countR = 0, countW = 0, appearR = 0, appearW = 0;
         float percent = 0;
         int[] tR;
-        float idealprob = 0;
+        float prob = 0;
         ArrayList<Card> handR = new ArrayList<Card>();
         ArrayList<Card> listR = new ArrayList<Card>();
         Random gen = new Random();
@@ -233,7 +233,7 @@ public class Binom extends javax.swing.JFrame {
                 Tchoice = Integer.parseInt(tDone.getSelectedItem().toString());
                 Cchoice = Integer.parseInt(cDrawn.getSelectedItem().toString());
                 Dchoice = Integer.parseInt(dTotal.getText());
-                idealprob = Float.parseFloat(ideal.getText());
+                prob = Float.parseFloat(ideal.getText());
                 try {
                     BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
                     // NOTE: Rserve() must be entered in RStudio after library(Rserve) is used else no connection will happen.
@@ -285,8 +285,9 @@ public class Binom extends javax.swing.JFrame {
                     barName = "C:/Users/Elise/Downloads/image/BinomBar-" + date + ".png";
                     barname = barName;
                     int exp = Integer.parseInt(expe.getSelectedItem().toString());
-                    c.eval("ideal=sum(rbinom("+ exp + ","+Tchoice+",1/52))/("+exp+"*"+Tchoice+")");
-                    
+                    c.eval("ideal=sum(rbinom("+ exp + ","+Tchoice+","+prob+"))/("+exp+"*"+Tchoice+")");
+                    String res = c.eval("ideal").asString();
+                    area.append("\nIdeal probability is: " + res);
                     c.eval("slices = c("+ appearW + "," + failure + ")");
                     c.eval("lbls = c(\"Successes\", \"Failures\")");
                     c.eval("pct = round(slices/sum(slices)*100)");
@@ -295,7 +296,7 @@ public class Binom extends javax.swing.JFrame {
                     c.eval("png(filename='" + picName + "')");
                     c.eval("pie(slices, labels = lbls, main=\"Pie Chart of Success and Faillures\")");
                     c.eval("dev.off()");
-                    c.eval("counts = c(" + percent + "," + idealprob +")");
+                    c.eval("counts = c(" + percent + "," + res +")");
                     c.eval("png(filename='" + barName + "')");
                     c.eval("barplot(counts, main = \"Actual vs. Ideal Probabilities\", names.arg = c(\"Actual\", \"Ideal\"), col = c(\"darkblue\",\"lightblue\"), las = 1)");
                     c.eval("dev.off()");
