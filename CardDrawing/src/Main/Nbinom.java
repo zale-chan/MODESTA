@@ -60,6 +60,8 @@ public class nBinom extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         experi = new javax.swing.JComboBox<>();
         success = new javax.swing.JComboBox<>();
+        ideal = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,6 +105,8 @@ public class nBinom extends javax.swing.JFrame {
         jLabel6.setText("# of Success");
 
         jLabel7.setText("# of Experiments");
+
+        jLabel8.setText("Ideal Probability");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -148,11 +152,13 @@ public class nBinom extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(dTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(success, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(success, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ideal, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(27, 27, 27))
         );
         jPanel1Layout.setVerticalGroup(
@@ -180,9 +186,12 @@ public class nBinom extends javax.swing.JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tDone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(experi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(experi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ideal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(58, 58, 58)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bnom)
@@ -215,8 +224,7 @@ public class nBinom extends javax.swing.JFrame {
         int Cchoice, Tchoice, Dchoice, suit, name, index, countR = 0, appearR = 0, actualsuccess;
         float percent = 0;
         int[] tR;
-        String idealprob;
-        float res;
+        float idealprob = 0;
         ArrayList<Card> handR = new ArrayList<Card>();
         ArrayList<Card> listR = new ArrayList<Card>();
         Random gen = new Random();
@@ -225,8 +233,8 @@ public class nBinom extends javax.swing.JFrame {
         String fileName = "files/nBinomFile-" + date  + ".txt";
         String picName, barName;
         
-        if (dTotal.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Enter your desired total.", "Warning", JOptionPane.WARNING_MESSAGE, null);
+        if (dTotal.getText().isEmpty() || ideal.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please don't leave a field blank.", "Warning", JOptionPane.WARNING_MESSAGE, null);
         } else {
             if(cDrawn.getSelectedItem()!= null && tDone.getSelectedItem()!= null){
                 
@@ -284,7 +292,6 @@ public class nBinom extends javax.swing.JFrame {
                     barName = "C:/Users/Elise/Downloads/image/BinomBar-" + date + ".png";
                     barname = barName;
                     c.eval("ideal=dnbinom("+x+","+r+",p)");
-                    idealprob = c.eval("ideal").asString();
                     c.eval("slices = c("+ appearR + "," + failure + ")");
                     c.eval("lbls = c(\"Successes\", \"Failures\")");
                     c.eval("pct = round(slices/sum(slices)*100)");
@@ -405,6 +412,7 @@ public class nBinom extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cDrawn;
     private javax.swing.JTextField dTotal;
     private javax.swing.JComboBox<String> experi;
+    private javax.swing.JTextField ideal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -412,6 +420,7 @@ public class nBinom extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> success;

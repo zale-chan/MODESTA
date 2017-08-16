@@ -88,11 +88,13 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jLabel4" max="32767" attributes="0"/>
                               <Component id="jLabel6" min="-2" pref="95" max="-2" attributes="0"/>
+                              <Component id="jLabel8" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="dTotal" min="-2" pref="161" max="-2" attributes="0"/>
                               <Component id="success" min="-2" pref="161" max="-2" attributes="0"/>
+                              <Component id="ideal" min="-2" pref="161" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -131,9 +133,13 @@
                       </Group>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel7" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                      <Component id="experi" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel7" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                          <Component id="experi" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel8" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="ideal" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -267,6 +273,13 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JTextField" name="ideal">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel8">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ideal Probability"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
